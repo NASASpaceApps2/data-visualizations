@@ -50,5 +50,20 @@ router.get('/search', function(req, res, next) {
 
 })
 
+// Get set of all properties (e.g. publishers)
+router.get('/publishers', function(req, res, next) {
+  let limit = req.query.limit || 100;
+  let offset = req.query.offset || 0;
+
+  Dataset.distinct("publisher", function(err, data) {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.json(data);
+    }
+  });
+});
+
+
 
 export default router;
