@@ -1,0 +1,4 @@
+*/node_modules
+backend/nasa.json
+backend/nasa_snippet.json
+*/.env
