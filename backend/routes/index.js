@@ -25,18 +25,29 @@ router.get('/search', function(req, res, next) {
     if (err) {
       res.status(500).send(err);
     } else {
-      res.json(data);
+      // Get total count
+      Dataset.count(queryObj, function(err, count) {
+        if (err) {
+          res.status(500).send(err);
+        } else {
+          // Remove _id and __v
+          data.forEach(function(item) {
+            delete item._id;
+            delete item.__v;
+          });
+          res.json({
+            data: data,
+            total: count,
+            query: query,
+            property: property,
+            limit: limit,
+            offset: offset
+          });
+        }
+      });
     }
   });
 
-  // Print number of datasets
-  Dataset.count({}, function(err, count) {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      console.log(count);
-    }
-  })
 })
 
 
