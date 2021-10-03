@@ -83,16 +83,28 @@ function start(data) {
         .attr("r", 2.5)
         .attr("fill", d => d._children ? "#555" : "#999")
         .attr("stroke-width", 10);
-  
-    nodeEnter.append("text")
+  //https://data.nasa.gov/browse?q=%20atmosphere+%20Nasa%20Goddard%20Global%20Change%20Data%20Center+%20Geospatial&sortBy=relevance
+
+        const nasaBrowsify = (name) => {
+          return `https://data.nasa.gov/browse?q=${encodeURIComponent(name.trim())}&sortBy=relevance`
+        }
+
+    let no = nodeEnter.append("text")
+    no
         .attr("dy", "0.31em")
         .attr("x", d => d._children ? -6 : 6)
         .attr("text-anchor", d => d._children ? "end" : "start")
+        .on("click", (d,i) => window.open(nasaBrowsify(i.data.name)) )
+        
+        
+    no    
         .text(d => shorten(d.data.name))
-      .clone(true).lower()
+        .clone(true).lower()
         .attr("stroke-linejoin", "round")
         .attr("stroke-width", 3)
-        .attr("stroke", "white");
+        .attr("stroke", "white")
+        //\\\
+        
   
     // Transition nodes to their new position.
     const nodeUpdate = node.merge(nodeEnter).transition(transition)
