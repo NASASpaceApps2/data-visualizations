@@ -9,14 +9,16 @@ router.get('/', function(req, res, next) {
 
 /* Search by property */
 router.get('/search', function(req, res, next) {
-  var query = req.query.query;
-  var property = req.query.property || "title";
+  var queries = req.query;
+  var properties = Object.keys(queries);
   var limit = req.query.limit || 100;
   var offset = req.query.offset || 0;
 
   // Find in text
   var queryObj = {};
-  queryObj[property] = { $regex: query, $options: 'i' };
+  for (properties of properties) {
+    queryObj[property] = { $regex: query, $options: 'i' };
+  }
 
   console.log(query, property, limit, offset, queryObj);
   
@@ -63,6 +65,9 @@ router.get('/publishers', function(req, res, next) {
     }
   });
 });
+
+// Get all themes (themes is a list of strings)
+
 
 
 
