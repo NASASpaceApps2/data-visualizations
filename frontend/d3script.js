@@ -156,7 +156,7 @@ function start(data) {
       })
 
     nodeEnter.append("circle")
-      .attr("r", 2.5)
+      .attr("r", 4)
       .attr("fill", d => d._children ? "#555" : "#999")
       .attr("stroke-width", 10);
     //https://data.nasa.gov/browse?q=%20atmosphere+%20Nasa%20Goddard%20Global%20Change%20Data%20Center+%20Geospatial&sortBy=relevance
