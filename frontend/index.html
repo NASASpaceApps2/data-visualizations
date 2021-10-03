@@ -12,5 +12,11 @@
 </body>
 <!-- d3.js -->
 <script src="https://d3js.org/d3.v6.min.js"></script>
-<script src="d3script.js"></script>
+<script src="https://raw.githubusercontent.com/NASASpaceApps2/data-visualizations/master/frontend/d3script.js"></script>
+<script>
+  (async function() {
+    const data = await d3.json("https://raw.githubusercontent.com/NASASpaceApps2/data-visualizations/master/frontend/tree.json");
+    start(data)
+  })();
+</script>
 </html>
