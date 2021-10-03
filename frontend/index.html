@@ -132,9 +132,10 @@
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal">NASA Dataset Explorer</h5>
     <nav class="my-2 my-md-0 mr-md-3">
+      Quick links:
       <a class="p-2 text-dark" href="../index.html">Home</a>
-      <a class="p-2 text-dark" href="#">About</a>
-      <a class="p-2 text-dark" href="#">Data Sources</a>
+      <a class="p-2 text-dark" href="#" onclick="about()">About</a>
+      <a class="p-2 text-dark" href="#" onclick="dataSources()">Data Sources</a>
       <a class="p-2 text-dark" href="https://github.com/NASASpaceApps2/data-visualizations">GitHub Repository</a>
       <a class="p-2 text-dark" href="https://data.nasa.gov/data_visualizations.html">NASA Data Visualization</a>
       <a class="p-2 text-dark" href="https://data.nasa.gov/browse">NASA Dataset Catalog</a>
@@ -172,7 +173,7 @@
     </div>
     <div class="row col-md-8 col-sm-12 mt-2">
       <h2 class="mt-4">Dataset Tree</h2>
-      <p>View all datasets arranged as a tree hierarchy. The tree has 3 levels: Source, Category, and Keyword. Click a node to expand or collapse. Click text to view matching databases from NASA's data catalog.</p>
+      <p>The following shows NASA public datasets arranged as a tree hierarchy to find relevant data quickly. The tree is organized by 3 levels: Source, Category, and Keyword. Click a node to expand or collapse. Click text to view matching databases from NASA's data catalog.</p>
 
         <a href="#!" id="expand-all">expand all</a>
         <a href="#!" id="collapse-all">collapse all</a>
@@ -226,8 +227,8 @@
 
   <hr />
   <div class="container">
-    <span>Created by
-      <a href="https://2021.spaceappschallenge.org/challenges/statements/ontologies-and-interactive-network-visualizations/teams/runtime-terror-1/projectm">RunTime Terror</a>
+    <span>Created by team
+      <a href="https://2021.spaceappschallenge.org/challenges/statements/ontologies-and-interactive-network-visualizations/teams/runtime-terror-1/project">RunTime Terror</a>
     </span>
     <br><br>
   </div>
@@ -328,6 +329,14 @@
 
     cardList.innerHTML = cardListHtml
 
+  }
+
+  function about() {
+    alert("Originally created for NASA Space Apps Challenge 2021, this website provides 3 tools to quickly find and navigate through NASA's collection of public databases.")
+  }
+
+  function dataSources() {
+    alert("This website uses the NASA Open Data API to fetch data from NASA's public databases. The data is available for download at https://data.nasa.gov/")
   }
 
 </script>
