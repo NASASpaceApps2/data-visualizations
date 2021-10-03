@@ -10,11 +10,16 @@ mongoose.connect(process.env.MONGO_URI);
 const datasetSchema = new mongoose.Schema({
   title: String,
   description: String,
-  themes: [String], // original: theme
-  tags: [String], // original: keyword
+  theme: [String], // original: theme
+  keyword: [String], // original: keyword
+  modified: Date,///
+  bureauCode: [String],
+  programCode: [String],
+  accessLevel: String,
   landingPage: String,
-  datePublished: Date, // original: issued
+  issued: Date, // original: issued
   publisher: String,
+
 })
 
 const Dataset = mongoose.model('Dataset', datasetSchema);
