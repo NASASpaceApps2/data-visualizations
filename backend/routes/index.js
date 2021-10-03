@@ -11,8 +11,8 @@ router.get('/', function (req, res, next) {
 router.get('/search', function (req, res, next) {
   var query = req.query.query;
   var property = req.query.property || "title";
-  var limit = req.query.limit || 100;
-  var offset = req.query.offset || 0;
+  var limit = parseInt(req.query.limit) || 100;
+  var offset = parseInt(req.query.offset) || 0;
 
   // Find in text
   var queryObj = {};
