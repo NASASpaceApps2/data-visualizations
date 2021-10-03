@@ -111,6 +111,12 @@
     .highlight {
       background-color: rgb(244, 255, 83);
     }
+    .card-header a {
+      color: darkslategray
+    }
+    .card-header a:hover {
+      color: black
+    }
   </style>
   <!-- Use bootstrap 5 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
@@ -126,7 +132,7 @@
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal">NASA Dataset Explorer</h5>
     <nav class="my-2 my-md-0 mr-md-3">
-      <a class="p-2 text-dark" href="#">Home</a>
+      <a class="p-2 text-dark" href="../index.html">Home</a>
       <a class="p-2 text-dark" href="#">About</a>
       <a class="p-2 text-dark" href="#">Data Sources</a>
       <a class="p-2 text-dark" href="https://github.com/NASASpaceApps2/data-visualizations">GitHub Repository</a>
@@ -166,9 +172,7 @@
     </div>
     <div class="row col-md-8 col-sm-12 mt-2">
       <h2 class="mt-4">Dataset Tree</h2>
-      <p>Explanation. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam ipsa eos labore culpa excepturi
-        consequuntur iusto nihil dignissimos facilis. Inventore, itaque praesentium. Aut qui nostrum non autem magni
-        odio delectus.
+      <p>View all datasets arranged as a tree hierarchy. The tree has 3 levels: Source, Category, and Keyword. Click a node to expand or collapse. Click text to view matching databases from NASA's data catalog.</p>
 
         <a href="#!" id="expand-all">expand all</a>
         <a href="#!" id="collapse-all">collapse all</a>
@@ -180,9 +184,8 @@
   <div class="container mt-4">
 
     <div class="row col-md-8 col-sm-12 mt-5">
-      <h2>Quick Search Tool</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, totam nihil ipsa, cupiditate, odit quidem minus
-        quia facere a illum sint enim natus iste ducimus ad quo nostrum numquam dicta.</p>
+      <h2>Real-time Search Tool</h2>
+      <p>Search 43,000+ NASA databases in real-time. Word matches are highlighted. You can search by a different field (title, description, publisher, keywords, tags) and increase the number of results dispalyed at once.</p>
       <!-- Search box with dropdown menu with options acending or decending-->
       <div class="input-group mb-3">
         <input autocomplete="off" type="text" class="form-control" placeholder="e.g. Earth" aria-label="Search"
@@ -196,6 +199,17 @@
             <option value="keyword">Keywords</option>
           </select>
         </div>
+        <div class="input-group-append">
+          <select class="custom-select" id="inputGroupSelect02" onchange="onTyped(true)">
+            <option selected value="5">5</option>
+            <option value="10">10</option>
+            <option value="10">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+          </select>
+        </div>
+        
       </div>
 
       <div id="showing" style="display: none;">
@@ -212,11 +226,8 @@
 
   <hr />
   <div class="container">
-    <span>Contributers -
-      <a href="https://github.com/GitHubium">Kyle W</a>,
-      <a href="https://github.com/GitHubium">Lorem ipsum</a>,
-      <a href="https://github.com/GitHubium">Lorem ipsum</a>,
-      <a href="https://github.com/GitHubium">Lorem ipsum</a>
+    <span>Created by
+      <a href="https://2021.spaceappschallenge.org/challenges/statements/ontologies-and-interactive-network-visualizations/teams/runtime-terror-1/projectm">RunTime Terror</a>
     </span>
     <br><br>
   </div>
@@ -251,7 +262,6 @@
   var blocking = false
   var lastValue = 0
   async function onTyped(forceUpdate) {
-
     value = document.querySelector('#search-input').value.trim()
     if (value == "") {
       document.querySelector("#showing").style.display = "none"
@@ -270,11 +280,12 @@
       }
     }
     document.querySelector("#showing").style.display = "block"
+    let limit = parseInt(document.getElementById('inputGroupSelect02').value) || 10
     let option = document.getElementById("inputGroupSelect01").value;
 
     // Fetch the data from the API
     let baseUrl = "https://nasadata.herokuapp.com/"
-    let route = `search?query=${value}&property=${option}&limit=10`
+    let route = `search?query=${value}&property=${option}&limit=${limit}`
     let url = baseUrl + route;
     let res = await fetch(url);
     blocking = true
@@ -301,7 +312,7 @@
 
       cardListHtml += `<div class="card mb-4 shadow-sm">
           <div class="card-header">
-            <h4 class="my-0 font-weight-normal" href=${d.landingPage}>${highlight(d.title, value)}</h4>
+            <h4 class="my-0 font-weight-normal"><a href=${d.landingPage}>${highlight(d.title, value)}</a></h4>
           </div>
           <div class="card-body">
             <span>${compressTo200CharactersAndHighlight(d.description, value)}</span>
