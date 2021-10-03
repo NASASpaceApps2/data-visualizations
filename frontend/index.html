@@ -292,21 +292,21 @@
     for (d of data.data) {
 
       let themeHtml = d.theme.map(function (t) {
-        return `<a onclick='alert("${t}")'>${highlight(t, value)}</a>`;
+        return `<a href="#!" onclick='alert("${t}")'>${highlight(t, value)}</a>`;
       }).join(", ");
       let tagsHtml = d.keyword.map(function (t) {
-        return `<a onclick='alert("${t}")'>${highlight(t, value)}</a>`;
+        return `<a href="#!" onclick='alert("${t}")'>${highlight(t, value)}</a>`;
       }).join(", ");
 
 
       cardListHtml += `<div class="card mb-4 shadow-sm">
           <div class="card-header">
-            <h4 class="my-0 font-weight-normal">${highlight(d.title, value)}</h4>
+            <h4 class="my-0 font-weight-normal" href=${d.landingPage}>${highlight(d.title, value)}</h4>
           </div>
           <div class="card-body">
             <span>${compressTo200CharactersAndHighlight(d.description, value)}</span>
             ${themeHtml.length ? `<br><span>Theme: ${themeHtml}</span>` : ""}
-            <small class="float-right">
+            <small class="float-right text-muted">
               Issued <span>${d.issued.slice(0, 10)}</span><br>
               Last updated <span>${d.modified.slice(0, 10)}</span>
             </small>
