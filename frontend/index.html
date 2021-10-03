@@ -50,6 +50,48 @@
     .custom-select:focus::-ms-value {
       color: #495057;
     }
+    .dropbtn {
+    background-color: rgb(21, 70, 226);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    border-radius:10px;
+  }
+ 
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    width:300px;
+  }
+
+  .dropdown-content {
+    display:none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(150, 110, 110, 0.2);
+    z-index: 1;
+    font-style:italic;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  .dropdown:hover .dropdown-content {
+    z-index: 10;
+    display: block;}
+    
+  .dropdown:hover .dropbtn {
+    background-color: rgb(31, 80, 236);
+    
+    }
   </style>
   <!-- Use bootstrap 5 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
@@ -74,7 +116,27 @@
   
 
   <div class="container">
-    <div class="row col-md-8 col-sm-12">
+    <div class="row col-md-8 col-sm-12 mt-5">
+      <h2>Dropdown Menu</h2>
+      <p>Select a source to view all datasets from that data center.</p>
+      <div class="dropdown">
+        <button class="dropbtn">Sources</button>
+        <div class="dropdown-content">
+          <a href="sources/Nasa Goddard Global Change Data Center.html">Nasa Goddard Global Change Data Center</a>
+          <a href="sources/Nasa’s Oak Ridge National Lab Data Center.html">Nasa’s Oak Ridge National Lab Data Center</a>
+          <a href="sources/Nasa Langley Atmospherical Sciences Data Center.html">Nasa Langley Atmospherical Sciences Data Center</a>
+          <a href="sources/Ocean Biology Data Center.html">Ocean Biology Data Center</a>
+          <a href="sources/National Aeronautics And Space Administration/html">National Aeronautics And Space Administration</a>
+          <a href="sources/Physical Oceanography Distributed Active Archive Center.html">Physical Oceanography Distributed Active Archive Center</a>
+          <a href="sources/Land Processes Distributed Data Center.html">Land Processes Distributed Data Center</a>
+          <a href="sources/Distributed Archive Center.html">Distributed Archive Center</a>
+        </div>
+      </div>
+      <br>
+
+
+    </div>
+    <div class="row col-md-8 col-sm-12 mt-2">
       <h2 class="mt-4">Dataset Tree</h2>
       <p>Explanation. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam ipsa eos labore culpa excepturi consequuntur iusto nihil dignissimos facilis. Inventore, itaque praesentium. Aut qui nostrum non autem magni odio delectus.</p>
     </div>
@@ -82,7 +144,8 @@
   <div id="container"></div>
 
   <div class="container mt-4">
-    <div class="row col-md-8 col-sm-12">
+
+    <div class="row col-md-8 col-sm-12 mt-5">
       <h2>Quick Search Tool</h2>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, totam nihil ipsa, cupiditate, odit quidem minus quia facere a illum sint enim natus iste ducimus ad quo nostrum numquam dicta.</p>
       <!-- Search box with dropdown menu with options acending or decending-->
