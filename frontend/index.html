@@ -107,6 +107,10 @@
       background-color: rgb(31, 80, 236);
 
     }
+
+    .highlight {
+      background-color: rgb(244, 255, 83);
+    }
   </style>
   <!-- Use bootstrap 5 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
@@ -166,8 +170,8 @@
         consequuntur iusto nihil dignissimos facilis. Inventore, itaque praesentium. Aut qui nostrum non autem magni
         odio delectus.
 
-        <a href="#" id="expand-all">expand all</a>
-        <a href="#" id="collapse-all">collapse all</a>
+        <a href="#!" id="expand-all">expand all</a>
+        <a href="#!" id="collapse-all">collapse all</a>
       </p>
     </div>
   </div>
@@ -181,22 +185,27 @@
         quia facere a illum sint enim natus iste ducimus ad quo nostrum numquam dicta.</p>
       <!-- Search box with dropdown menu with options acending or decending-->
       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-          aria-describedby="basic-addon2">
+        <input autocomplete="off" type="text" class="form-control" placeholder="e.g. Earth" aria-label="Search"
+          aria-describedby="basic-addon2" id="search-input" onkeyup="onTyped()">
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">Search</button>
-        </div>
-        <div class="input-group-append">
-          <select class="custom-select" id="inputGroupSelect01">
-            <option selected>Sort by</option>
-            <option value="1">Title</option>
-            <option value="2">Description</option>
-            <option value="3">Publisher</option>
-            <option value="4">Themes</option>
-            <option value="5">Keywords</option>
+          <select class="custom-select" id="inputGroupSelect01" onchange="onTyped(true)">
+            <option selected value="title">Title</option>
+            <option value="description">Description</option>
+            <option value="publisher">Publisher</option>
+            <option value="theme">Themes</option>
+            <option value="keyword">Keywords</option>
           </select>
         </div>
       </div>
+
+      <div id="showing" style="display: none;">
+        <h4>Results</h4>
+        <p>Showing <span id="results-limit"></span> of <span id="results-total"></span></p>
+        <div id="results">
+        </div>
+      </div>
+
+
     </div>
 
   </div>
@@ -216,6 +225,100 @@
 <!-- d3.js -->
 <script src="https://d3js.org/d3.v6.min.js"></script>
 <script src="d3script.js"></script>
+
+<!-- Search tool -->
+<script>
+
+  function highlight(text, search) {
+    if (!search) return text;
+    return text.replace(new RegExp(search, 'gi'), function (match) {
+      return '<span class="highlight">' + match + '</span>';
+    });
+  }
+
+  function compressTo200CharactersAndHighlight(html, value) {
+    let randomId = Math.random().toString(36).substring(2, 15)
+    outHtml = highlight(html.slice(0, 200))
+    if (html.length > 200) {
+      outHtml += `<a href="#!" onclick="
+      document.getElementById('${randomId}').style.display='inline';this.parentNode.removeChild(this);
+    ">...</a><span id="${randomId}" style="display:none">${highlight(html.slice(200), value)}</span>`
+    }
+    return outHtml
+  }
+
+
+  var blocking = false
+  var lastValue = 0
+  async function onTyped(forceUpdate) {
+
+    value = document.querySelector('#search-input').value.trim()
+    if (value == "") {
+      document.querySelector("#showing").style.display = "none"
+      document.querySelector("#results").innerHTML = ""
+      return
+    }
+    if (!forceUpdate) {
+      if (value == lastValue) {
+        // If nothing changed in box (e.g. a space added)
+        return
+      }
+      lastValue = value
+      if (blocking) {
+        // If user is typing too fast
+        return
+      }
+    }
+    document.querySelector("#showing").style.display = "block"
+    let option = document.getElementById("inputGroupSelect01").value;
+
+    // Fetch the data from the API
+    let baseUrl = "https://nasadata.herokuapp.com/"
+    let route = `search?query=${value}&property=${option}&limit=10`
+    let url = baseUrl + route;
+    let res = await fetch(url);
+    blocking = true
+    let data = await res.json();
+    addCards(data);
+    blocking = false
+  }
+
+  function addCards(data) {
+    var cardList = document.querySelector("#results");
+    var cardListHtml = ""
+    document.querySelector("#results-limit").innerHTML = Math.min(data.total, data.limit);
+    document.querySelector("#results-total").innerHTML = data.total;
+
+    for (d of data.data) {
+
+      let themeHtml = d.theme.map(function (t) {
+        return `<a onclick='alert("${t}")'>${highlight(t, value)}</a>`;
+      }).join(", ");
+      let tagsHtml = d.keyword.map(function (t) {
+        return `<a onclick='alert("${t}")'>${highlight(t, value)}</a>`;
+      }).join(", ");
+
+
+      cardListHtml += `<div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">${highlight(d.title, value)}</h4>
+          </div>
+          <div class="card-body">
+            <span>${compressTo200CharactersAndHighlight(d.description, value)}</span>
+            ${themeHtml.length ? `<br><span>Theme: ${themeHtml}</span>` : ""}
+            <small class="float-right">
+              Issued <span>${d.issued.slice(0, 10)}</span><br>
+              Last updated <span>${d.modified.slice(0, 10)}</span>
+            </small>
+            ${tagsHtml.length ? `<br><span>Tags: ${tagsHtml}</span>` : ""}
+          </div>
+        </div>`;
+    }
+
+    cardList.innerHTML = cardListHtml
+
+  }
+
 </script>
 
 </html>
