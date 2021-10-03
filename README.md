@@ -16,6 +16,5 @@ Add info about the project here
 
 ## Frontend website
 
-On GitHub pages: https://nasaspaceapps2.github.io/data-visualizations/frontend/index.html
-On Replit: <private link>
-
+GitHub pages: https://nasaspaceapps2.github.io/data-visualizations/frontend/index.html<br>
+Replit: https://nasa-hackathon.martinmt0207.repl.co<br>
