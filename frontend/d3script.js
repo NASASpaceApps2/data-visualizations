@@ -55,7 +55,25 @@ function start(data) {
       }
       return d
     }
-  
+        // create a tooltip
+        var tooltip = d3.select("#container")
+        .append("div")
+          .style("position", "absolute")
+          .style("visibility", "hidden")
+          .text("I'm a circle!")
+          .style("background-color", "white")
+          .style("border", "solid")
+          .style("border-width", "1px")
+          .style("border-radius", "5px")
+          .style("padding", "5px")
+          .style("z-index", "10")
+          .style("font", "12px sans-serif")
+          .style("text-align", "center")
+          .style("pointer-events", "none");
+
+          // Remove tooltip when mouse is not over the circle
+          
+
     const height = right.x - left.x + margin.top + margin.bottom;
   
     const transition = svg.transition()
@@ -77,7 +95,21 @@ function start(data) {
         .on("click", (event, d) => {
           d.children = d.children ? null : d._children;
           update(d);
-        });
+        })
+       
+    .on("mouseover", function(event, i) {
+      //console.log(d,i)
+      tooltip.text(i.data.name)
+      tooltip.style("visibility", "visible")
+
+      // position tooltip
+      tooltip
+        .style("top", (event.pageY - 10) + "px")
+        .style("left", (event.pageX + 10) + "px");
+    })
+    .on("mouseout", function(event, i) {
+      tooltip.style("visibility", "hidden");
+    })
   
     nodeEnter.append("circle")
         .attr("r", 2.5)
@@ -89,8 +121,11 @@ function start(data) {
           return `https://data.nasa.gov/browse?q=${encodeURIComponent(name.trim())}&sortBy=relevance`
         }
 
+
+
     let no = nodeEnter.append("text")
     no
+    
         .attr("dy", "0.31em")
         .attr("x", d => d._children ? -6 : 6)
         .attr("text-anchor", d => d._children ? "end" : "start")
@@ -102,7 +137,10 @@ function start(data) {
         .clone(true).lower()
         .attr("stroke-linejoin", "round")
         .attr("stroke-width", 3)
-        .attr("stroke", "white")
+        .attr("stroke", "white");
+
+    
+
         //\\\
         
   
